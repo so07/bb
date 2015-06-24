@@ -11,6 +11,8 @@ setup(
    author=config.author,
    author_email=config.author_email,
    url=config.url,
+   scripts=['bb'],
+   packages=['argconfig'],
    data_files=['bb.py']
 
 )
