@@ -1,23 +1,12 @@
 #!/usr/bin/env python
 import os
 import argparse
+import subprocess
 import ConfigParser
 
 import argconfig
 
-import subprocess
-
-print dir(argconfig.argconfig)
-
-a = argconfig.argconfig
-
-print a
-#a.set_section('bb')
-
-print ">>>", a.get_path()
-print ">>>", a.get_section()
-print ">>>", a.get_file()
-print ">>>", a.get_file_list()
+ConfigFromFile = argconfig.argconfig
 
 class bb(dict):
 
@@ -29,8 +18,6 @@ class bb(dict):
               }
 
     def __init__ (self, *args, **kwargs):
-       print "ARGS", args
-       print "KWARGS", kwargs
 
        # from *args
        for d in args:
@@ -199,7 +186,7 @@ def main():
    parser.add_argument('--source-dir',
                        dest = 'source_dir_base',
                        default = os.path.join( os.getcwd(), 'source'),
-                       action = a,
+                       action = ConfigFromFile,
                        argkey = 'source-dir',
                        section = 'directory',
                        help = '')
@@ -207,7 +194,7 @@ def main():
    parser.add_argument('--build-dir',
                        dest = 'build_dir_base',
                        default = os.path.join( os.getcwd(), 'build'),
-                       action = a,
+                       action = ConfigFromFile,
                        argkey = 'build-dir',
                        section = 'directory',
                        help = '')
@@ -215,7 +202,7 @@ def main():
    parser.add_argument('--install-dir',
                        dest = 'install_dir_base',
                        default = os.path.join( os.getcwd(), 'install'),
-                       action = a,
+                       action = ConfigFromFile,
                        argkey = 'install-dir',
                        section = 'directory',
                        help = '')
@@ -223,7 +210,7 @@ def main():
    parser.add_argument('--module-dir',
                        dest = 'module_dir_base',
                        default = os.path.join( os.getcwd(), 'module'),
-                       action = a,
+                       action = ConfigFromFile,
                        argkey = 'module-dir',
                        section = 'directory',
                        help = '')
@@ -231,8 +218,6 @@ def main():
    args = parser.parse_args()
 
    b = bb(**vars(args))
-
-   print b
 
    b()
 
