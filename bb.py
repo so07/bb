@@ -33,6 +33,8 @@ class bb(dict):
 
        if self['read_from_config']:
           key_to_update = self._get_options(self['name'])
+          # remove name from key_to_update
+          key_to_update.remove('name')
           for k in key_to_update:
               self[k] = self._get_key(self['name'], k)
 
@@ -41,6 +43,9 @@ class bb(dict):
 
        self.update({k:v for k,v in kwargs.iteritems() if v})
 
+       if self['read_from_config']:
+           if 'name' in self._get_options(self['name']):
+               self['name'] = self._get_key(self['name'], 'name')
 
        if self.get('version'):
            _version = [None, None, None]
