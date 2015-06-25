@@ -13,6 +13,6 @@ setup(
    url=config.url,
    scripts=['bb'],
    packages=['argconfig'],
-   data_files=['bb.py']
+   #data_files=['bb.py']
 
 )
