@@ -14,6 +14,7 @@ class bb(dict):
                 'INSTALLDIR' : 'install_dir',
                 'BUILDDIR' : 'build_dir',
                 'SOURCEDIR' : 'source_dir',
+                'MODULEDIR' : 'module_dir',
                 'MODULEFILE' : 'module_file',
               }
 
