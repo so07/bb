@@ -152,47 +152,51 @@ def main():
 
    parser.add_argument('-n', '--name',
                        dest = 'name',
-                       help = '')
+                       help = 'Name of package.')
 
    parser.add_argument('-v', '--version',
                        dest = 'version',
-                       help = '')
+                       help = 'Version of package (Major.Minor.Patch).')
 
    parser.add_argument('-M', '--major',
                        dest = 'major',
-                       help = '')
+                       help = 'Major version.')
 
    parser.add_argument('-m', '--minor',
                        dest = 'minor',
-                       help = '')
+                       help = 'Minor version.')
 
    parser.add_argument('-p', '--patch',
                        dest = 'patch',
-                       help = '')
+                       help = 'Patch revision.')
 
    parser.add_argument('-c', '--config',
                        dest = 'read_from_config',
                        action = 'store_true',
-                       help = '')
+                       help = 'Read package settings from configuration file.')
 
    parser.add_argument('--session',
                        dest = 'session',
-                       choices = ['download', 'build', 'install'],
+                       choices = ['download', 'build', 'install', 'module'],
                        nargs = '+',
                        default = [],
-                       help = '')
+                       help = 'Define steps to follow for installing package.')
 
    parser.add_argument('--download',
                        dest = 'download',
-                       help = '')
+                       help = 'Define procedure to download package.')
 
    parser.add_argument('--build',
                        dest = 'build',
-                       help = '')
+                       help = 'Define proceure to build package.')
 
    parser.add_argument('--install',
                        dest = 'install',
-                       help = '')
+                       help = 'Define procedure to install package')
+
+   parser.add_argument('--module',
+                       dest = 'module',
+                       help = 'Define procedure for module file of package.')
 
    parser.add_argument('--source-dir',
                        dest = 'source_dir_base',
@@ -200,7 +204,7 @@ def main():
                        action = ConfigFromFile,
                        argkey = 'source-dir',
                        section = 'directory',
-                       help = '')
+                       help = 'Base directory for sources.')
 
    parser.add_argument('--build-dir',
                        dest = 'build_dir_base',
@@ -208,7 +212,7 @@ def main():
                        action = ConfigFromFile,
                        argkey = 'build-dir',
                        section = 'directory',
-                       help = '')
+                       help = 'Base directory for builds.')
 
    parser.add_argument('--install-dir',
                        dest = 'install_dir_base',
@@ -216,7 +220,7 @@ def main():
                        action = ConfigFromFile,
                        argkey = 'install-dir',
                        section = 'directory',
-                       help = '')
+                       help = 'Base directory for installs.')
 
    parser.add_argument('--module-dir',
                        dest = 'module_dir_base',
@@ -224,7 +228,7 @@ def main():
                        action = ConfigFromFile,
                        argkey = 'module-dir',
                        section = 'directory',
-                       help = '')
+                       help = 'Base directory for module files.')
 
    args = parser.parse_args()
 
