@@ -7,6 +7,7 @@ import ConfigParser
 import argconfig
 
 ConfigFromFile = argconfig.argconfig
+ConfigFromFile.add_path( os.path.join( os.path.expanduser('~'),  '.bb') )
 
 class bb(dict):
 
