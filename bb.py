@@ -74,31 +74,6 @@ class bb(dict):
                os.makedirs(d)
 
 
-    def _sub_metakey(self, value):
-        for str_old, str_new in self.metakey.items():
-            if str_old in value:
-               value = value.replace(str_old, self[str_new])
-        return value
-
-    def _get_options(self, section):
-        l = []
-        for file_cfg in ConfigFromFile.get_file_list():
-            cp = ConfigParser.SafeConfigParser(allow_no_value=True)
-            cp.read( file_cfg )
-            l.extend(cp.options(section))
-        return l
-
-    def _get_key(self, section, key):
-        value = None
-        for file_cfg in ConfigFromFile.get_file_list():
-            cp = ConfigParser.SafeConfigParser(allow_no_value=True)
-            cp.read( file_cfg )
-            try:
-               value = cp.get(section, key)
-            except ConfigParser.NoOptionError:
-               pass
-        return value
-
     def __str__(self):
       s='\n'
       for k, v in sorted(self.items()):
@@ -110,7 +85,37 @@ class bb(dict):
             print "#", getattr(self, todo).__name__
             getattr(self, todo)()
 
+
+    def _sub_metakey(self, value):
+        """Substitute metakey with key of packege."""
+        for str_old, str_new in self.metakey.items():
+            if str_old in value:
+               value = value.replace(str_old, self[str_new])
+        return value
+
+    def _get_options(self, section):
+        """Return all keys in section from config files."""
+        l = []
+        for file_cfg in ConfigFromFile.get_file_list():
+            cp = ConfigParser.SafeConfigParser(allow_no_value=True)
+            cp.read( file_cfg )
+            l.extend(cp.options(section))
+        return l
+
+    def _get_key(self, section, key):
+        """Return value of key in section from config files."""
+        value = None
+        for file_cfg in ConfigFromFile.get_file_list():
+            cp = ConfigParser.SafeConfigParser(allow_no_value=True)
+            cp.read( file_cfg )
+            try:
+               value = cp.get(section, key)
+            except ConfigParser.NoOptionError:
+               pass
+        return value
+
     def download(self):
+        """Execute procedure to download package."""
         # go to source-dir
         os.chdir(self['source_dir'])
         print "cd ", self['source_dir']
@@ -118,18 +123,23 @@ class bb(dict):
         subprocess.call(self['download'], shell=True)
 
     def build(self):
+        """Execute procedure to build package."""
+        # go to build-dir
         os.chdir(self['build_dir'])
         print "cd ", self['build_dir']
         print self['build']
         subprocess.call(self['build'], shell=True)
 
     def install(self):
+        """Execute procedure to install package."""
+        # go to build-dir
         os.chdir(self['build_dir'])
         print "cd ", self['build_dir']
         print self['install']
         subprocess.call(self['install'], shell=True)
 
     def module(self):
+        """Execute procedure to make module of package."""
         print self['module']
         subprocess.call(self['module'], shell=True)
         pass
