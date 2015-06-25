@@ -81,7 +81,7 @@ class bb(dict):
 
     def _get_options(self, section):
         l = []
-        for file_cfg in a.get_file_list():
+        for file_cfg in ConfigFromFile.get_file_list():
             cp = ConfigParser.SafeConfigParser(allow_no_value=True)
             cp.read( file_cfg )
             l.extend(cp.options(section))
@@ -89,7 +89,7 @@ class bb(dict):
 
     def _get_key(self, section, key):
         value = None
-        for file_cfg in a.get_file_list():
+        for file_cfg in ConfigFromFile.get_file_list():
             cp = ConfigParser.SafeConfigParser(allow_no_value=True)
             cp.read( file_cfg )
             try:
