@@ -6,6 +6,7 @@ import subprocess
 import ConfigParser
 
 import argconfig
+import config
 
 ConfigFromFile = argconfig.argconfig
 ConfigFromFile.add_path( os.path.join( os.path.expanduser('~'),  '.bb') )
@@ -243,6 +244,10 @@ def main():
                        argkey = 'module-dir',
                        section = 'directory',
                        help = 'Base directory for module files.')
+
+   parser.add_argument('--bb-version', action='version',
+                       version='%(prog)s ' + config.version,
+                       help='Print bb version information.')
 
    args = parser.parse_args()
 
