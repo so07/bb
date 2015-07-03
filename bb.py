@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 import os
+import shutil
 import argparse
 import subprocess
 import ConfigParser
@@ -120,27 +121,34 @@ class bb(dict):
                pass
         return value
 
+    def _chdir(self, dir_, remove=True):
+        """Make and change directory.
+           If directory already exists remove it.
+        """
+        if os.path.isdir(dir_) and remove:
+           shutil.rmtree(dir_)
+           os.makedirs(dir_)
+        print "cd ", dir_
+        os.chdir(dir_)
+
     def download(self):
         """Execute procedure to download package."""
         # go to source-dir
-        os.chdir(self['source_dir'])
-        print "cd ", self['source_dir']
+        self._chdir(self['source_dir'])
         print self['download']
         subprocess.call(self['download'], shell=True)
 
     def build(self):
         """Execute procedure to build package."""
         # go to build-dir
-        os.chdir(self['build_dir'])
-        print "cd ", self['build_dir']
+        self._chdir(self['build_dir'])
         print self['build']
         subprocess.call(self['build'], shell=True)
 
     def install(self):
         """Execute procedure to install package."""
         # go to build-dir
-        os.chdir(self['build_dir'])
-        print "cd ", self['build_dir']
+        self._chdir(self['build_dir'], remove=False)
         print self['install']
         subprocess.call(self['install'], shell=True)
 
