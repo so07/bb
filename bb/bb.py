@@ -167,6 +167,7 @@ def main():
 
    parser.add_argument('-n', '--name',
                        dest = 'name',
+                       required = True,
                        help = 'Name of package.')
 
    parser.add_argument('-v', '--version',
