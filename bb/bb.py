@@ -155,7 +155,7 @@ class bb(dict):
         """Execute procedure to download package."""
         self._logger.info(self['download'])
         # go to source-dir
-        self._chdir(self['source_dir'])
+        self._chdir(self['source_dir'], remove=True)
         subprocess.call(self['download'], shell=True)
 
     def build(self):
