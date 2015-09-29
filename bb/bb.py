@@ -183,6 +183,10 @@ def main():
    parser = argparse.ArgumentParser(prog='bb',
                                     formatter_class=argparse.ArgumentDefaultsHelpFormatter)
 
+   parser.add_argument('--bb-version', action='version',
+                       version='%(prog)s ' + config.version,
+                       help='Print bb version.')
+
    parser.add_argument('-n', '--name',
                        dest = 'name',
                        default = '',
@@ -268,10 +272,6 @@ def main():
                        argkey = 'module-dir',
                        section = 'directory',
                        help = 'Base directory for module files.')
-
-   parser.add_argument('--bb-version', action='version',
-                       version='%(prog)s ' + config.version,
-                       help='Print bb version information.')
 
    args = parser.parse_args()
 
