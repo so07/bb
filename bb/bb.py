@@ -72,9 +72,9 @@ class bb(dict):
        self['name_version'] = "%s-%s" % (self['name'], self['version'])
        self['name_version_full'] = "%s-%s" % (self['name'], self['version_full'])
 
-       self['source_dir'] = os.path.join( self['source_dir_base'], self['name_version_full'] )
-       self['build_dir'] = os.path.join( self['build_dir_base'], self['name_version_full'] )
-       self['install_dir'] = os.path.join( self['install_dir_base'], self['name_version'] )
+       self['source_dir'] = os.path.join( self['source_dir_base'], self['name'], self['name_version_full'] )
+       self['build_dir'] = os.path.join( self['build_dir_base'], self['name'], self['name_version_full'] )
+       self['install_dir'] = os.path.join( self['install_dir_base'], self['name'], self['version_full'] )
 
        # module
        self['module_dir'] = os.path.join( self['module_dir_base'], self['name'] )
