@@ -4,6 +4,7 @@ import shutil
 import argparse
 import subprocess
 import ConfigParser
+import logging
 
 import argconfig
 import config
@@ -31,6 +32,16 @@ class bb(dict):
        # from **kwargs
        for key, value in kwargs.items():
           self[key] = value
+
+       # add logger
+       self._logger = logging.getLogger()
+       _format = "# [BB] %(message)s"
+       _formatter = logging.Formatter(_format)
+       self._logger.setLevel(logging.DEBUG)
+       stream_log_handler = logging.StreamHandler()
+       stream_log_handler.setFormatter(_formatter)
+       self._logger.addHandler(stream_log_handler)
+
 
        if self['read_from_config']:
           key_to_update = self._get_options(self['name'])
@@ -142,30 +153,29 @@ class bb(dict):
 
     def download(self):
         """Execute procedure to download package."""
+        self._logger.info(self['download'])
         # go to source-dir
         self._chdir(self['source_dir'])
-        print self['download']
         subprocess.call(self['download'], shell=True)
 
     def build(self):
         """Execute procedure to build package."""
+        self._logger.info(self['build'])
         # go to build-dir
         self._chdir(self['build_dir'])
-        print self['build']
         subprocess.call(self['build'], shell=True)
 
     def install(self):
         """Execute procedure to install package."""
+        self._logger.info(self['install'])
         # go to build-dir
         self._chdir(self['build_dir'], remove=False)
-        print self['install']
         subprocess.call(self['install'], shell=True)
 
     def module(self):
         """Execute procedure to make module of package."""
-        print self['module']
+        self._logger.info(self['module'])
         subprocess.call(self['module'], shell=True)
-        pass
 
 
 def main():
