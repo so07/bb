@@ -32,7 +32,6 @@ class bb(dict):
        for key, value in kwargs.items():
           self[key] = value
 
-
        if self['read_from_config']:
           key_to_update = self._get_options(self['name'])
           # remove name from key_to_update
@@ -100,6 +99,15 @@ class bb(dict):
             if str_old in value:
                value = value.replace(str_old, self[str_new])
         return value
+
+    def get_sections(self):
+        """Return all sections from config files."""
+        l = []
+        for file_cfg in ConfigFromFile.get_file_list():
+            cp = ConfigParser.SafeConfigParser(allow_no_value=True)
+            cp.read( file_cfg )
+            l.extend(cp.sections())
+        return l
 
     def _get_options(self, section):
         """Return all keys in section from config files."""
@@ -190,6 +198,11 @@ def main():
                        action = 'store_true',
                        help = 'Read package settings from configuration file.')
 
+   parser.add_argument('-l', '--list',
+                       dest = 'list_from_config',
+                       action = 'store_true',
+                       help = 'List package settings from configuration file.')
+
    parser.add_argument('--session',
                        dest = 'session',
                        choices = ['download', 'build', 'install', 'module'],
@@ -252,6 +265,11 @@ def main():
    args = parser.parse_args()
 
    b = bb(**vars(args))
+
+   if args.list_from_config:
+      packs = b.get_sections()
+      print "\n".join(packs)
+      return
 
    b()
 
