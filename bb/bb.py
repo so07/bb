@@ -22,6 +22,8 @@ class bb(dict):
                 'MODULEFILE' : 'module_file',
               }
 
+    keys_directory = ['source_dir', 'build_dir', 'install_dir', 'module_dir']
+
     def __init__ (self, *args, **kwargs):
 
        # from *args
@@ -86,12 +88,6 @@ class bb(dict):
                self[k] = self._sub_metakey(self[k])
 
 
-       for k in ['source_dir', 'build_dir', 'install_dir', 'module_dir']:
-           d = self[k]
-           if not os.path.exists(d):
-               os.makedirs(d)
-
-
     def __str__(self):
       s='\n'
       for k, v in sorted(self.items()):
@@ -151,6 +147,20 @@ class bb(dict):
         print "cd ", dir_
         os.chdir(dir_)
 
+    def _make_dirs(self):
+        """Make package directories."""
+        for k in self.keys_directory:
+            d = self[k]
+            if not os.path.exists(d):
+                os.makedirs(d)
+
+    def _remove_dirs(self):
+        """Remove package directories."""
+        for k in self.keys_directory:
+            d = self[k]
+            if os.path.exists(d):
+                shutil.rmtree(d)
+
     def download(self):
         """Execute procedure to download package."""
         self._logger.info(self['download'])
@@ -176,6 +186,10 @@ class bb(dict):
         """Execute procedure to make module of package."""
         self._logger.info(self['module'])
         subprocess.call(self['module'], shell=True)
+
+    def remove(self):
+        """Execute procedure to remove package."""
+        self._remove_dirs()
 
 
 def main():
@@ -210,6 +224,11 @@ def main():
    parser_package.add_argument('-p', '--patch',
                                dest = 'patch',
                                help = 'Patch revision.')
+
+   parser_package.add_argument('--remove',
+                               dest = 'remove',
+                               action = 'store_true',
+                               help = 'Remove module.')
 
 
    parser_config = parser.add_argument_group('configuration file options')
@@ -287,14 +306,19 @@ def main():
 
    args = parser.parse_args()
 
+
    b = bb(**vars(args))
+
 
    if args.list_from_config:
       packs = b.get_sections()
       print "\n".join(packs)
-      return
 
-   b()
+   elif args.remove:
+      b.remove()
+
+   else:
+      b()
 
 
 
