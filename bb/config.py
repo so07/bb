@@ -1,7 +1,8 @@
 #!/usr/bin/env python
 
 name    = 'bb'
-version = '0.2.1'
+version = '0.3.0'
+
 description = ''
 
 url = 'https://github.com/so07/bb'
