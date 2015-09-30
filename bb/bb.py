@@ -80,6 +80,9 @@ class bb(dict):
            for k in key_to_update:
                self[k] = self._sub_metakey(self[k])
 
+       # create package directories
+       self._make_dirs()
+
 
     def __str__(self):
       s='\n'
