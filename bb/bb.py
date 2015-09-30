@@ -35,15 +35,8 @@ class bb(dict):
        for key, value in kwargs.items():
           self[key] = value
 
-       # add logger
-       self._logger = logging.getLogger()
-       _format = "# [BB] %(message)s"
-       _formatter = logging.Formatter(_format)
-       self._logger.setLevel(logging.DEBUG)
-       stream_log_handler = logging.StreamHandler()
-       stream_log_handler.setFormatter(_formatter)
-       self._logger.addHandler(stream_log_handler)
-
+       # logger
+       self._logger = self._set_logger()
 
        if self['read_from_config']:
           key_to_update = self._get_options(self['name'])
@@ -99,6 +92,20 @@ class bb(dict):
             print "#", getattr(self, todo).__name__
             getattr(self, todo)()
 
+
+    def _set_logger(self):
+        """Define logger."""
+
+        _format = "# [BB] %(message)s"
+
+        _logger = logging.getLogger()
+        _formatter = logging.Formatter(_format)
+        _logger.setLevel(logging.DEBUG)
+        stream_log_handler = logging.StreamHandler()
+        stream_log_handler.setFormatter(_formatter)
+        _logger.addHandler(stream_log_handler)
+
+        return _logger
 
     def _sub_metakey(self, value):
         """Substitute metakey with key of packege."""
